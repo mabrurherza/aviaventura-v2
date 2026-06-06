@@ -9,6 +9,8 @@ import { loadEnv } from 'vite';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import netlify from '@astrojs/netlify';
+
 const { PUBLIC_SANITY_PROJECT_ID, PUBLIC_SANITY_DATASET } = loadEnv(
   process.env.NODE_ENV,
   process.cwd(),
@@ -24,7 +26,7 @@ export default defineConfig({
     studioBasePath: '/studio'
   }), react()],
 
-  adapter: node({ mode: "standalone" }),
+  adapter: netlify(),
 
   vite: {
     plugins: [tailwindcss()],
