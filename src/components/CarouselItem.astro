@@ -1,0 +1,17 @@
+---
+const { airline } = Astro.props;
+---
+
+<a href="">
+  <div class="carousel-item relative w-fit cursor-pointer">
+    <img
+      src={`/img/principals/${airline}-logo.png`}
+      class="h-16 absolute bottom-4 right-4 z-10"
+    />
+    <img
+      src={`/img/placeholder-${airline}-office.jpg`}
+      alt="Photo of Aviaventura main office"
+      class="rounded-xl h-full object-cover aspect-square lg:aspect-[10/14] max-w-[400px] z-0 relative"
+    />
+  </div>
+</a>

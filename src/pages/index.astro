@@ -1,17 +1,122 @@
 ---
+import Layout from "../layouts/Layout.astro";
 
+import Hero from "../components/Homepage/Hero.astro";
+import HowSection from "../components/Homepage/HowSection.astro";
+import Carousel from "../components/Homepage/Carousel.astro";
+import CarouselItem from "../components/CarouselItem.astro";
+
+import BtnPrimary from "../components/BtnPrimary.astro";
+import SuccessStory from "../components/SuccessStory.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import NewsfeedItem from "../components/NewsfeedItem.astro";
+
+import { sanityClient } from "sanity:client";
+
+const data = await sanityClient.fetch(`*[_type == "homepage"]`);
+const content = data[0];
+
+const newsData = await sanityClient.fetch(`*[_type == "news"]`);
+
+// import { urlForImage } from "../sanity/lib/urlForImage";
+import { urlFor } from "../sanity/lib/urlFor";
+import type { SanityImageObject } from "@sanity/image-url";
+
+import EventCard1 from "../components/EventCard1.astro";
+import EventCard2 from "../components/EventCard2.astro";
+import WhySection from "../components/Homepage/WhySection.astro";
+import StrengthSection from "../components/Homepage/StrengthSection.astro";
+import StrengthSection2 from "../components/Homepage/StrengthSection2";
+import HowSection2 from "../components/Homepage/HowSection2.astro";
+import WhySection2 from "../components/Homepage/WhySection2.astro";
+import Services from "../components/Homepage/Services.astro";
+import Services2 from "../components/Homepage/Services2.astro";
+import AchievementStats from "../components/Homepage/AchievementStats.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout>
+  <Hero
+    heading={content.hero.heading}
+    subparagraph={content.hero.subParagraph}
+  />
+
+  <section class="pt-32 bg-linear-to-t from-white via-white to-sky-100">
+    <div class="flex flex-col w-full max-w-360 m-auto px-5 pb-20">
+      <Eyebrow text="OUR EXPERTISE" />
+      <p class="text-xl lg:max-w-3xl leading-relaxed">
+        At AVIAVENTURA, our GSSA approaches bring together key advantages that
+        set us apart. From our extensive network to our expertise, we are
+        committed to offering unmatched support for airline partners.
+      </p>
+    </div>
+    <StrengthSection2 client:load />
+  </section>
+
+  <Services2 content={content} />
+
+  <AchievementStats />
+
+  <HowSection2
+    heading={content.how.heading}
+    subparagraph={content.how.subParagraph}
+    hows={content.how.hows}
+  />
+
+  <WhySection2
+    eyebrow={content.dedicatedTeam.subheading}
+    heading={content.dedicatedTeam.heading}
+    subparagraph={content.dedicatedTeam.subParagraph}
+    advantages={content.dedicatedTeam.advantages}
+  />
+
+  <section class="pt-32">
+    <div
+      class="max-w-360 px-5 mx-auto flex flex-col items-end gap-10 lg:flex-row"
+    >
+      <div class="flex-1">
+        <Eyebrow text={content.eventsSection.subheading} />
+        <h2
+          class="text-3xl leading-tight! text-brand sm:text-4xl xl:text-5xl max-w-screen-sm"
+        >
+          {content.eventsSection.heading}
+        </h2>
+      </div>
+      <p class="flex-1">
+        {content.eventsSection.subParagraph}
+      </p>
+    </div>
+    <div
+      class="mt-20 grid grid-cols-1 justify-between px-5 gap-5 lg:grid-cols-2 xl:grid-cols-4"
+    >
+      {
+        content.eventsSection.events.map((e: any) => (
+          <EventCard2
+            image={e.image}
+            imgCaption={e.image.caption}
+            title={e.title}
+            description={e.description}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="max-w-360 px-5 mx-auto py-32">
+    <h2 class="mb-12 text-5xl text-brand">Newsfeed</h2>
+    <div class="flex flex-col gap-20">
+      {
+        newsData.map((news: any) => (
+          <NewsfeedItem
+            title={news.title}
+            excerpt={news.excerpt}
+            thumbnail={urlFor(news.thumbnail)}
+            slug={news.slug.current}
+          />
+        ))
+      }
+      <div class="text-right">
+        <BtnPrimary link="/news" text="See all news" theme="light" />
+      </div>
+    </div>
+  </section>
+</Layout>

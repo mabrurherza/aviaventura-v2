@@ -1,0 +1,45 @@
+---
+interface Studycase {
+  attributes: {
+    title: string,
+    slug: string
+    desc: string,
+    content: string,
+    sinceFrom: string,
+    sinceTo: string,
+    office: string,
+    partner: string,
+    picture: {
+      data: {
+        attributes: {
+          url: string
+        }
+      }
+    },
+    partnerImg: {
+      data: {
+        attributes: {
+          url: string
+        }
+      }
+    }
+  }
+}
+
+import StudycaseItem from "./CaseStudyItem.astro"
+let url = import.meta.env.STRAPI_URL + "/api/studycases";
+const query = "populate[picture][fields][0]=url"
+const studycase = await fetch(url + "?" + query).then((res) => res.json()).catch((err) => err);
+
+const { homepage } = Astro.props;
+---
+
+{
+  studycase.data && studycase.data.length > 0
+  // if homepage is true, it will only display the first 3 news
+  ? (homepage
+    ? studycase?.data.slice(0,3).map((studycase: Studycase) => <StudycaseItem studycase={studycase} />)
+    : studycase?.data?.map((studycase: Studycase) => <StudycaseItem studycase={studycase} />)
+  )
+  : "No data found. Please make sure you inputted the correct Strapi URL"
+}

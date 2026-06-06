@@ -1,0 +1,28 @@
+---
+const {
+  title = "AVIAVENTURA | Dedicated GSA Teams for Airline Success in Indonesia",
+  description = "AVIAVENTURA is a trusted General Sales Agent (GSA) in Indonesia, offering dedicated teams, premium office locations, and tailored support for passenger and cargo airlines. Our personalized approach ensures enhanced accountability, faster response times, and improved operational efficiency for airline partners.",
+  keywords = "AVIAVENTURA, General Sales Agent, GSA Indonesia, airline representation, dedicated airline teams, passenger airlines, cargo airlines, airline sales support, airline management, aviation solutions, Jakarta GSA, airline partnerships",
+  canonical = "https://www.aviaventura.com",
+  ogImage = "/assets/images/aviaventura-og-image.jpg",
+  url = "https://www.aviaventura.com",
+} = Astro.props;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<link rel="canonical" href={canonical} />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<link rel="alternate icon" href="/favicon.ico" sizes="48x48" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="manifest" href="/site.webmanifest" />
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#10054c" />
+<meta name="theme-color" content="#10054c" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Aviaventura" />
+

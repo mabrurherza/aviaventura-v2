@@ -1,0 +1,34 @@
+---
+interface Newsfeed {
+  attributes: {
+    title: string,
+    desc: string,
+    slug: string,
+    content: string,
+    picture: {
+      data: {
+        attributes: {
+          url: string
+        }
+      }
+    }
+  }
+}
+
+import NewsfeedItem from "./NewsfeedItem.astro"
+let url = import.meta.env.STRAPI_URL + "/api/newsfeeds";
+const query = "populate[picture][fields][0]=url"
+const newsfeeds = await fetch(url + "?" + query).then((res) => res.json()).catch((err) => err);
+
+const { homepage } = Astro.props;
+---
+
+{
+  newsfeeds.data && newsfeeds.data.length > 0
+  // if homepage is true, it will only display the first 3 news
+  ? (homepage
+    ? newsfeeds?.data.slice(0,3).map((newsfeed: Newsfeed) => <NewsfeedItem newsfeed={newsfeed} />)
+    : newsfeeds?.data?.map((newsfeed: Newsfeed) => <NewsfeedItem newsfeed={newsfeed} />)
+  )
+  : "No data found. Please make sure you inputted the correct Strapi URL"
+}

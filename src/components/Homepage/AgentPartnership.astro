@@ -1,0 +1,41 @@
+---
+import Eyebrow from "../Eyebrow.astro";
+const { content } = Astro.props;
+import { urlFor } from "../../sanity/lib/urlFor";
+---
+
+<section
+  class="max-w-[1440px] px-5 mx-auto flex flex-col gap-10 pt-32 md:flex-row"
+>
+  <div class="flex-1">
+    <Eyebrow text={content.partnershipsSection.subheading} />
+    <h2 class="text-3xl leading-tight! text-brand sm:text-4xl xl:text-5xl">
+      {content.partnershipsSection.heading}
+    </h2>
+  </div>
+  <div class="flex flex-1 flex-col gap-5">
+    <p>
+      {content.partnershipsSection.subParagraph}
+    </p>
+    <p>Some of our well-established partnerships:</p>
+    <div
+      class="grid grid-cols-2 grid-rows-2 place-items-center gap-12 lg:grid-cols-3"
+    >
+      {
+        content.partnershipsSection.partners.map((partner: any) => (
+          <img
+            src={urlFor(partner.agentLogo).url()}
+            alt={partner.agentName}
+            class="grayscale"
+          />
+        ))
+      }
+
+      <p
+        class="col-span-2 size-full content-center rounded-xl bg-slate-100 py-12 text-center lg:col-span-1"
+      >
+        and more...
+      </p>
+    </div>
+  </div>
+</section>

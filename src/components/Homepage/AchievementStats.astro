@@ -1,0 +1,139 @@
+---
+import { sanityClient } from "sanity:client";
+const content = await sanityClient.fetch(`*[_type == "aboutPage"][0]`);
+import Eyebrow from "../Eyebrow.astro";
+---
+
+<section class="container mx-auto gap-8 py-40 lg:gap-20 lg:py-32">
+  <div class="mb-10">
+    <Eyebrow text="Aviaventura in numbers" />
+  </div>
+  <div class="flex flex-1 flex-col lg:flex-row gap-10">
+    <div
+      class="flex flex-1 flex-col gap-7 rounded-xl overflow-hidden bg-sky-100 p-6 lg:p-10 relative"
+    >
+      <p class="text-7xl text-sky-600 z-10">
+        {(content.statistics.airlines = 7)}+
+      </p>
+      <p class="text-4xl z-10">
+        Airline partnerships with their dedicated offices
+      </p>
+
+      <div
+        class="z-10 flex flex-wrap gap-5 md:gap-6 mb-4 bg-sky-100 justify-between"
+      >
+        <img
+          src="/img/client/ethiopian-airlines-logo.png"
+          alt="Ethiopian Airlines Logo"
+          class="h-16"
+        />
+        <img
+          src="/img/client/uzbekistan-aiways-logo.png"
+          alt="Ethiopian Airlines Logo"
+          class="h-16"
+        />
+        <img src="/img/client/qanot-logo.svg" alt="qanot Logo" class="h-16" />
+        <img
+          src="/img/client/yemenia-logo.png"
+          alt="yemenia Logo"
+          class="h-16"
+        />
+        <img
+          src="/img/client/maskargo-logo.png"
+          alt="Maskargo Logo"
+          class="h-16"
+        />
+
+        <img
+          src="/img/client/myjetexpress-airlines-logo.png"
+          alt="My Jet Express Airlines Logo"
+          class="h-16"
+        />
+        <img
+          src="/img/client/garuda-cargo.png"
+          alt="Garuda Indonesia Cargo Logo"
+          class="h-16 mix-blend-multiply"
+        />
+
+        <img
+          src="/img/client/citilink-logo.svg"
+          alt="Citilink Logo"
+          class="w-20"
+        />
+      </div>
+      <a
+        href="/success-story"
+        class="rounded-md bg-white hover:bg-slate-50 mt-5 p-4 text-2xl text-sky-600 z-20"
+      >
+        <button
+          class="flex items-end xs:items-center w-full justify-between z-20"
+        >
+          <p class="text-left">
+            See Success Stories on how we handle our strategic partnerships
+          </p>
+          <div>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              class="size-6 stroke-sky-600"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+            </svg>
+          </div>
+        </button>
+      </a>
+
+      <img
+        src="/graphic/small-blurry-plane.png"
+        alt="Plane image decoration"
+        class="absolute top-10 right-10 w-16 z-0"
+      />
+
+      <!-- <img
+        src="/graphic/cloud-transparent.png"
+        alt="Cloud image decoration"
+        class="absolute bottom-0 left-0 w-full z-10 opacity-30"
+      /> -->
+    </div>
+    <div class="flex-1 grid gap-6 lg:grid-cols-2 lg:grid-rows-2 lg:gap-16">
+      <div class="flex flex-col justify-between gap-6">
+        <p class="text-6xl text-sky-600">
+          <span id="experience-years">9</span>+
+        </p>
+        <p class="text-2xl">Years of experiences</p>
+        <hr />
+      </div>
+      <div class="flex flex-col justify-between gap-6">
+        <p class="text-6xl text-sky-600">{content.statistics.events}+</p>
+        <p class="text-2xl">Events and seminars</p>
+        <hr />
+      </div>
+      <div class="flex flex-col justify-between gap-6">
+        <p class="text-6xl text-sky-600">{content.statistics.passengers}+</p>
+        <p class="text-2xl">Passengers served</p>
+        <hr />
+      </div>
+      <div class="flex flex-col justify-between gap-6">
+        <p class="text-6xl text-sky-600">{content.statistics.partners}+</p>
+        <p class="text-2xl">Travel agency partners</p>
+        <hr />
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const startYear = 2017;
+  const currentYear = new Date().getFullYear();
+  const yearsOfExperience = currentYear - startYear;
+
+  const displayElement = document.getElementById("experience-years");
+
+  if (displayElement) {
+    displayElement.textContent = yearsOfExperience.toString();
+  }
+</script>

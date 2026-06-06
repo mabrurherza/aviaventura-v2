@@ -1,0 +1,25 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+const careerData = await sanityClient.fetch(`*[_type == "career"]`);
+import PortableText from "../components/PortableText.astro";
+---
+
+<Layout>
+  <section class="w-full py-50">
+    <h1>Career Page here</h1>
+    <div>
+      {
+        !careerData
+          ? `no career available for a while`
+          : careerData.map((career: any) => (
+              <div>
+                <h2>{career.jobTitle}</h2>
+                <p>Department: {career.department}</p>
+                <PortableText portableText={career.description} />
+              </div>
+            ))
+      }
+    </div>
+  </section>
+</Layout>

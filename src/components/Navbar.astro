@@ -1,0 +1,126 @@
+<nav class="fixed inset-x-0 top-0 z-30 bg-white/90 backdrop-blur-md">
+  <div class="container mx-auto flex items-center justify-between py-5">
+    <a href="/"
+      ><img
+        src="/img/logo.svg"
+        class="w-40 sm:w-48"
+        alt="aviaventura logo"
+      /></a
+    >
+    <ul class="hidden items-center gap-8 text-xl lg:flex">
+      <li>
+        <a class="transition-colors hover:text-sky-600" href="/about">About</a>
+      </li>
+      <li>
+        <a class="transition-colors hover:text-sky-600" href="/success-story"
+          >Success Story</a
+        >
+      </li>
+      <li>
+        <a class="transition-colors hover:text-sky-600" href="/news">News</a>
+      </li>
+      <li>
+        <a class="transition-colors hover:text-sky-600" href="/contact"
+          >Contact</a
+        >
+      </li>
+      <li>
+        <a class="transition-colors hover:text-sky-600" href="/career">Career</a
+        >
+      </li>
+      <li
+        class="rounded-full bg-sky-600 px-6 py-2 text-white transition-colors hover:bg-sky-700 cursor-pointer"
+      >
+        <a href="/contact" style="color: white;">Partner with us</a>
+      </li>
+    </ul>
+    <div
+      class="flex h-full cursor-pointer flex-col justify-center gap-1.5 lg:hidden"
+      id="hamburger"
+    >
+      <div class="h-1 w-10 bg-sky-600 transition-transform"></div>
+      <div class="h-1 w-10 bg-sky-600 transition-transform"></div>
+      <div class="h-1 w-10 bg-sky-600 transition-transform"></div>
+    </div>
+  </div>
+</nav>
+
+<!-- TODO: reuse the ul above? -->
+<div
+  class="invisible fixed inset-x-0 bottom-0 top-18.75 z-30 translate-x-full border-t border-slate-800/20 bg-white px-9 py-12 opacity-0 ease duration-350 sm:top-24 md:px-24 lg:hidden"
+  id="hamburgerList"
+>
+  <ul class="flex flex-col gap-8 text-xl duration-1000">
+    <li><a href="/about">About</a></li>
+    <li><a href="/success-story">Success Story</a></li>
+    <li><a href="/news">News</a></li>
+    <li><a href="/contact">Contact</a></li>
+    <li><a href="/career">Career</a></li>
+    <li
+      class="mx-auto rounded-full bg-sky-600 px-6 py-4 text-white transition-colors hover:bg-sky-700 w-full"
+    >
+      <a
+        href="/contact"
+        class="flex justify-between items-center gap-6 text-xl"
+      >
+        <p class="text-xl">Partner with us</p>
+        <div class="size-fit rounded-full bg-sky-600 text-white">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-6"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"></path>
+          </svg>
+        </div>
+      </a>
+    </li>
+  </ul>
+</div>
+
+<script>
+  // make the link blue when we visit the path
+  const navLinks = document.querySelectorAll(
+    "nav li a, #hamburgerList li a",
+  ) as NodeListOf<HTMLAnchorElement>;
+
+  navLinks.forEach((link) => {
+    if (link.pathname == window.location.pathname)
+      link.classList.add("text-sky-600");
+  });
+
+  // hamburger
+  const hamburger = document.querySelector("#hamburger");
+  const hamburgerBar = document.querySelectorAll("#hamburger div");
+  const hamburgerList = document.querySelector("#hamburgerList");
+  const nav = document.querySelector("nav");
+
+  hamburger?.addEventListener("click", () => {
+    // rotate hamburger bar
+    hamburgerBar[0].classList.toggle("rotate-45");
+    hamburgerBar[0].classList.toggle("translate-y-[160%]");
+    hamburgerBar[1].classList.toggle("hidden");
+    hamburgerBar[2].classList.toggle("-rotate-45");
+    hamburgerBar[2].classList.toggle("-translate-y-full");
+
+    // toggle hamburger list (menu) on mobile
+    hamburgerList?.classList.toggle("opacity-0");
+    hamburgerList?.classList.toggle("invisible");
+    hamburgerList?.classList.toggle("translate-x-full");
+
+    // toggle backdrop blur when opening hamburger list (menu) on mobile
+    nav?.classList.toggle("backdrop-blur-md");
+    nav?.classList.toggle("bg-white/50");
+    nav?.classList.toggle("bg-white");
+
+    // toggle scroll
+    document.body.classList.toggle("overflow-hidden");
+    document.body.classList.toggle("lg:overflow-auto");
+  });
+</script>

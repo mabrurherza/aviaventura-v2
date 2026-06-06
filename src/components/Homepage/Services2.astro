@@ -1,0 +1,47 @@
+---
+const { content } = Astro.props;
+import Eyebrow from "../Eyebrow.astro";
+
+import { urlFor } from "../../sanity/lib/urlFor";
+---
+
+<section
+  class="max-w-[1440px] px-5 mx-auto grid grid-cols-1 grid-rows-[repeat(3,fit-content)] gap-10 pt-20 lg:grid-cols-2 lg:grid-rows-[repeat(2,fit-content)]"
+>
+  <div>
+    <Eyebrow text={content.servicesSection.subheading} />
+
+    <h2 class="text-3xl !leading-tight text-brand sm:text-4xl xl:text-5xl">
+      {content.servicesSection.heading}
+    </h2>
+  </div>
+
+  <div class="row-start-2 flex flex-col gap-20 lg:col-span-2 lg:flex-row">
+    {
+      content.servicesSection.services.map((service: any) => (
+        <div class="flex-1 flex gap-5 flex-col p-2 border border-slate-100 bg-slate-50 rounded-xl">
+          <div class="flex items-center gap-2 text-xl justify-between px-3 lg:px-8 pt-8">
+            <h3 class="text-3xl text-brand">{service.name}</h3>
+            <img
+              src={urlFor(service.icon).url()}
+              alt={`Icon decoration for ${service.name} service.`}
+              class="w-11 lg:w-16"
+            />
+          </div>
+
+          <ul class="flex flex-1 flex-col divide-y px-3 lg:px-8 pt-8">
+            {service.activities.map((activity: any) => (
+              <li class="gap-2 py-4 text-lg">{activity}</li>
+            ))}
+          </ul>
+
+          <img
+            src={urlFor(service.image).url()}
+            alt={service.image.alt}
+            class="rounded-lg aspect-video"
+          />
+        </div>
+      ))
+    }
+  </div>
+</section>

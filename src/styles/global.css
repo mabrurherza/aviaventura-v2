@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+@theme {
+  --font-onest: "Onest", "Arial", "Helvetica", "sans-serif";
+  --font-inter: "Inter", "Helvetica", "sans-serif";
+
+  --color-brand: #10054c;
+
+  --breakpoint-2xl: 1440px;
+}
+
+@layer base {
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+  }
+
+  body {
+    @apply font-light text-slate-700;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-onest;
+  }
+}
+
+@layer components {
+  .text-display {
+    @apply text-3xl lg:text-4xl font-extralight bg-gradient-to-br from-sky-600 to-brand bg-clip-text text-transparent !leading-tight;
+  }
+
+  .custom-text p {
+    @apply text-slate-800 leading-loose mb-4;
+  }
+
+  .custom-text li {
+    @apply list-disc ml-5 mb-2;
+  }
+
+  .custom-text h4 {
+    @apply font-semibold text-2xl;
+  }
+}
+
+cite {
+  @apply text-white text-lg;
+}
+
+cite::before {
+  background-color: rgb(2 132 199);
+  content: "";
+  display: inline-block;
+  height: .0625rem;
+  margin-right: 1.25rem;
+  width: 2.5rem;
+}

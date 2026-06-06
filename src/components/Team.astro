@@ -1,0 +1,28 @@
+---
+interface Team {
+  attributes: {
+    name: string,
+    position: string,
+    linkedin: string,
+    picture: {
+      data: {
+        attributes: {
+          url: string
+        }
+      }
+    }
+  }
+}
+
+import TeamItem from "./TeamItem.astro"
+let url = import.meta.env.STRAPI_URL + "/api/teams";
+const query = "populate[picture][fields][0]=url"
+const teams = await fetch(url + "?" + query).then((res) => res.json()).catch((err) => err);
+---
+<div class="mt-12 grid grid-cols-2 gap-x-5 gap-y-12 font-normal md:grid-cols-3 md:gap-12 lg:grid-cols-4 xl:grid-cols-5">
+  {
+    teams.data && teams.data.length > 0
+    ? teams?.data?.map((team: Team) => <TeamItem team={team} />)
+    : "No data found. Please make sure you inputted the correct Strapi URL"
+  }
+</div>

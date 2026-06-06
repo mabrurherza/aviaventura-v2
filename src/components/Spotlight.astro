@@ -1,0 +1,26 @@
+---
+import BtnPrimary from "./BtnPrimary.astro";
+let url = import.meta.env.STRAPI_URL + "/api/spotlight";
+const query = "populate[newsfeed][populate][picture][fields][0]=url"
+const spotlight = await fetch(url + "?" + query).then((res) => res.json()).catch((err) => err);
+
+const spotlightAttributes = spotlight.data?.attributes?.newsfeed?.data?.attributes;
+const title = spotlightAttributes?.title;
+const slug = spotlightAttributes?.slug;
+const desc = spotlightAttributes?.desc;
+const pictureUrl = spotlightAttributes?.picture?.data?.attributes?.url;
+---
+{
+  spotlight.data ?
+  <div class="flex flex-col lg:items-end gap-5 rounded-3xl bg-slate-100 lg:flex-row">
+    <div class="flex-1 p-5">
+      <img src={import.meta.env.STRAPI_URL + pictureUrl} alt={title} class="rounded-3xl">
+    </div>
+    <div class="flex-1 py-5 px-8 lg:p-5">
+      <h3 class="text-2xl text-brand lg:text-3xl">{title}</h3>
+      <p class="mb-12 mt-5">{desc}</p>
+      <BtnPrimary link={`newsfeed/${slug}`} text="Read more" theme="white" />
+    </div>
+  </div>
+  : "No spotlight found"
+}

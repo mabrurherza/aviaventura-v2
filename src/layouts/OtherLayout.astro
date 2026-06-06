@@ -1,0 +1,51 @@
+---
+const { headcontent = {} } = Astro.props;
+import Basehead from "../components/Basehead.astro";
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <Basehead
+      title={headcontent.title}
+      description={headcontent.description}
+      keywords={headcontent.keywords}
+      canocial={headcontent.canonical}
+      ogImage={headcontent.ogImage}
+      url={headcontent.url}
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Onest:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header
+      class="fixed inset-x-0 top-0 z-30 border-b border-slate-200 bg-white"
+    >
+      <div class="flex items-center p-5 gap-5">
+        <a href="/"
+          ><img
+            src="/img/logo.svg"
+            class="w-28 sm:w-32"
+            alt="aviaventura logo"
+          /></a
+        >
+
+        <a
+          href="/"
+          class="border border-sky-600 text-sky-600 rounded-full py-1 px-2 text-xs hover:bg-sky-100"
+          >Back to homepage</a
+        >
+      </div>
+    </header>
+    <slot />
+  </body>
+</html>

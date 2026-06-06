@@ -1,0 +1,40 @@
+---
+const { content } = Astro.props;
+import Eyebrow from "../Eyebrow.astro";
+
+import { urlFor } from "../../sanity/lib/urlFor";
+---
+
+<section
+  class="max-w-[1440px] px-5 mx-auto grid grid-cols-1 grid-rows-[repeat(3,fit-content)] gap-10 py-32 lg:grid-cols-2 lg:grid-rows-[repeat(2,fit-content)]"
+>
+  <div>
+    <!-- <Eyebrow text={content.servicesSection.subheading} /> -->
+
+    <h2 class="text-3xl !leading-tight text-brand sm:text-4xl xl:text-5xl">
+      {content.servicesSection.heading}
+    </h2>
+  </div>
+
+  <div class="row-start-2 flex flex-col gap-10 lg:col-span-2 lg:flex-row">
+    {
+      content.servicesSection.services.map((service: any) => (
+        <div class="flex-1">
+          <div class="flex items-center gap-2 text-xl font-semibold text-sky-600">
+            <img
+              src={urlFor(service.icon).url()}
+              alt={`Icon decoration for ${service.name} service.`}
+              class="w-11"
+            />
+            <p>{service.name}</p>
+          </div>
+          <ul class="flex flex-1 flex-col divide-y">
+            {service.activities.map((activity: any) => (
+              <li class="gap-2 py-4">{activity}</li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</section>

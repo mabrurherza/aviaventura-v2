@@ -1,0 +1,10 @@
+---
+const { text = "Eyebrow" } = Astro.props;
+---
+
+<div class="flex gap-2 items-center mb-2">
+  <img src="/img/headerBullet.svg" alt="Header Bullet" class="h-5" />
+  <p class="text-lg md:text-xl font-bold uppercase text-sky-600 tracking-wider">
+    {text}
+  </p>
+</div>
