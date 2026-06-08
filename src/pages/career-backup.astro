@@ -1,0 +1,45 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+const careerData = await sanityClient.fetch(`*[_type == "career"]`);
+
+import PortableText from "../components/PortableText.astro";
+import BtnPrimary from "../components/BtnPrimary.astro";
+---
+
+<Layout>
+  <main class="container mx-auto gap-10 gap-y-24 py-32 px-5">
+    <h1 class="text-display mb-12 text-5xl">Career available at Aviaventura</h1>
+    <div class="py-5">
+      {
+        !careerData ? (
+          <p>
+            No career available for a while. Follow our{" "}
+            <a href="https://www.linkedin.com/company/aviaventura-aero-agensi">
+              LinkedIn
+            </a>{" "}
+            for update.
+          </p>
+        ) : (
+          careerData.map((career: any) => (
+            <div class="py-5 border-b border-slate-200">
+              <h2 class="text-2xl">{career.jobTitle}</h2>
+              <p class="pb-3">Department: {career.department}</p>
+              <div class="pb-3">
+                <PortableText portableText={career.description} />
+              </div>
+
+              <div>
+                <BtnPrimary
+                  link={`mailto:yogi@aviaventura.com?subject=JOB APPLY for ${career.jobTitle}`}
+                  theme="light"
+                  text="Apply via email"
+                />
+              </div>
+            </div>
+          ))
+        )
+      }
+    </div>
+  </main></Layout
+>
