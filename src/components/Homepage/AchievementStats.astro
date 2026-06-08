@@ -2,64 +2,39 @@
 import { sanityClient } from "sanity:client";
 const content = await sanityClient.fetch(`*[_type == "aboutPage"][0]`);
 import Eyebrow from "../Eyebrow.astro";
+const partnership = await sanityClient.fetch(
+  `*[_type == "partnership"] | order(_createdAt asc)`,
+);
+import { urlFor } from "../../sanity/lib/urlFor";
 ---
 
-<section class="container mx-auto gap-8 py-40 lg:gap-20 lg:py-32">
+<section class="container mx-auto gap-8 py-40 lg:gap-20 lg:py-32 px-5">
   <div class="mb-10">
     <Eyebrow text="Aviaventura in numbers" />
   </div>
   <div class="flex flex-1 flex-col lg:flex-row gap-10">
     <div
-      class="flex flex-1 flex-col gap-7 rounded-xl overflow-hidden bg-sky-100 p-6 lg:p-10 relative"
+      class="flex flex-1 flex-col gap-7 rounded-xl overflow-hidden bg-sky-50 p-6 lg:p-10 relative"
     >
       <p class="text-7xl text-sky-600 z-10">
-        {(content.statistics.airlines = 7)}+
+        {partnership.length - 1}+
       </p>
       <p class="text-4xl z-10">
         Airline partnerships with their dedicated offices
       </p>
 
       <div
-        class="z-10 flex flex-wrap gap-5 md:gap-6 mb-4 bg-sky-100 justify-between"
+        class="z-10 flex flex-wrap gap-5 md:gap-6 mb-4 bg-sky-50 justify-between"
       >
-        <img
-          src="/img/client/ethiopian-airlines-logo.png"
-          alt="Ethiopian Airlines Logo"
-          class="h-16"
-        />
-        <img
-          src="/img/client/uzbekistan-aiways-logo.png"
-          alt="Ethiopian Airlines Logo"
-          class="h-16"
-        />
-        <img src="/img/client/qanot-logo.svg" alt="qanot Logo" class="h-16" />
-        <img
-          src="/img/client/yemenia-logo.png"
-          alt="yemenia Logo"
-          class="h-16"
-        />
-        <img
-          src="/img/client/maskargo-logo.png"
-          alt="Maskargo Logo"
-          class="h-16"
-        />
-
-        <img
-          src="/img/client/myjetexpress-airlines-logo.png"
-          alt="My Jet Express Airlines Logo"
-          class="h-16"
-        />
-        <img
-          src="/img/client/garuda-cargo.png"
-          alt="Garuda Indonesia Cargo Logo"
-          class="h-16 mix-blend-multiply"
-        />
-
-        <img
-          src="/img/client/citilink-logo.svg"
-          alt="Citilink Logo"
-          class="w-20"
-        />
+        {
+          partnership.map((partner: any) => (
+            <img
+              src={urlFor(partner.image).url()}
+              alt={`${partner.name} partner logo`}
+              class="h-16 mix-blend-multiply"
+            />
+          ))
+        }
       </div>
       <a
         href="/success-story"
@@ -92,12 +67,6 @@ import Eyebrow from "../Eyebrow.astro";
         alt="Plane image decoration"
         class="absolute top-10 right-10 w-16 z-0"
       />
-
-      <!-- <img
-        src="/graphic/cloud-transparent.png"
-        alt="Cloud image decoration"
-        class="absolute bottom-0 left-0 w-full z-10 opacity-30"
-      /> -->
     </div>
     <div class="flex-1 grid gap-6 lg:grid-cols-2 lg:grid-rows-2 lg:gap-16">
       <div class="flex flex-col justify-between gap-6">

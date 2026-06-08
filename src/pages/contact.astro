@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { sanityClient } from "sanity:client";
+
+const data = await sanityClient.fetch(`*[_type == "contactPage"]`);
+const content = data[0];
+---
+
+<Layout>
+  <main
+    class="container mx-auto grid grid-cols-1 gap-10 gap-y-24 pb-24 pt-40 lg:grid-cols-2 lg:pt-56 px-5"
+  >
+    <div>
+      <h1 class="text-display mb-12 text-5xl">Contact Us</h1>
+      <div class="text-lg border-b border-zinc-200 pb-6 md:pb-12 mb-12">
+        <p class="mb-3 text-2xl text-sky-600">Main Office</p>
+        <p class="wrap-break-word max-w-60">
+          {
+            content.contactInfo.address
+              .split(",")
+              .map((line: any, index: any) => (
+                <>
+                  {line.trim()}
+                  {index <
+                    content.contactInfo.address.split(",").length - 1 && <br />}
+                </>
+              ))
+          }
+        </p>
+      </div>
+
+      <ul class="flex flex-col gap-12 text-xl">
+        <li>
+          <p class="mb-3 text-2xl text-sky-600">Email</p>
+          <ul class="border-b border-zinc-200 pb-6 md:pb-12">
+            {
+              content.contactInfo.email.map((email: any) => (
+                <li>
+                  <a href={`mailto:${email}`} class="hover:text-sky-600">
+                    {email}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </li>
+        <li>
+          <p class="mb-3 text-2xl text-sky-600">Phone</p>
+
+          <ul class="border-b border-zinc-200 pb-6 md:pb-12">
+            {
+              content.contactInfo.phone.map((phone: any) => (
+                <li>
+                  <a href={`tel:+6221${phone}`} class="hover:text-sky-600">
+                    (+6221) {phone}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <img
+      src="/img/mega-plaza-building-taken-by-aviaventura.jpg"
+      alt="Mega Plaza building"
+      class="rounded-2xl object-cover"
+    />
+  </main>
+</Layout>

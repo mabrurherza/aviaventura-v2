@@ -58,7 +58,7 @@ const ExpertiseSection = () => {
 
   return (
     <div>
-      <div className="max-w-[1440px] mx-auto px-5 flex flex-col lg:flex-row gap-10 lg:gap-20">
+      <div className="max-w-360 mx-auto px-5 flex flex-col lg:flex-row gap-10 lg:gap-20">
         <div className="flex-1">
           {expertiseData.map((item, index) => (
             <div
@@ -80,7 +80,7 @@ const ExpertiseSection = () => {
               {activeIndex === index && (
                 <div className="absolute w-full top-0 h-1 bg-slate-200">
                   <div
-                    className="absolute top-0 left-0 h-full bg-blue-500 transition-all ease-linear duration-[100ms]"
+                    className="absolute top-0 left-0 h-full bg-blue-500 transition-all ease-linear duration-100"
                     style={{ width: `${progress}%` }}
                   ></div>
                 </div>
@@ -88,7 +88,7 @@ const ExpertiseSection = () => {
             </div>
           ))}
         </div>
-        <div className="lg:flex-1 max-w-[600px]  h-[320px] lg:h-auto  relative">
+        <div className="lg:flex-1 max-w-150  h-80 lg:h-auto  relative">
           {expertiseData.map((item, index) => (
             <img
               key={index}

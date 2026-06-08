@@ -5,8 +5,8 @@ import contactPage from "./contactPage";
 import news from "./news";
 import studyCase from "./studyCase";
 import policies from "./policies";
-import page, { whySection, testimonialsSection, genericTextSection, testimonial } from "./pageType";
+import partnership from "./partnership";
 
 export const schema = {
-  types: [homepageType, careerType, aboutPage, contactPage, news, studyCase, policies, page, whySection, testimonialsSection, genericTextSection, testimonial],
+  types: [homepageType, careerType, aboutPage, contactPage, partnership, news, studyCase, policies],
 };

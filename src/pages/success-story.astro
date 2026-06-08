@@ -1,0 +1,166 @@
+---
+import Layout from "../layouts/Layout.astro";
+import LogoOutlineGraphic from "../components/LogoOutlineGraphic.astro";
+
+import { sanityClient } from "sanity:client";
+const partnership = await sanityClient.fetch(
+  `*[_type == "partnership"] | order(_createdAt asc)`,
+);
+import { urlFor } from "../sanity/lib/urlFor";
+---
+
+<Layout>
+  <main class="overflow-hidden">
+    <header class="container mx-auto flex items-center pt-32 lg:pt-40 relative">
+      <div class="flex-1 z-10">
+        <p class="max-w-md">
+          For over seven years, AVIAVENTURA has been at the forefront of airline
+          representation in Indonesia, offering dedicated General Sales and
+          Services Agent (GSSA) solutions that drive results. Our approach is
+          simple yet powerful: a dedicated team for each airline, ensuring
+          unwavering focus, seamless operations, and unmatched market
+          understanding.
+        </p>
+      </div>
+      <div
+        class="flex-1 h-full absolute md:relative md:flex left-80 md:left-0 w-[320px] md:w-full z-0 top-0 justify-end"
+      >
+        <LogoOutlineGraphic />
+      </div>
+    </header>
+
+    <section>
+      <div>
+        <div
+          class="z-10 flex flex-wrap gap-6 md:gap-10 mb-4 py-10 md:py-28 container m-auto"
+        >
+          {
+            partnership.map((partner: any) => (
+              <img
+                src={urlFor(partner.image).url()}
+                alt={`${partner.name} partner logo`}
+                class="h-16 mix-blend-multiply"
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <article
+      class="story flex flex-col gap-10 lg:gap-20 container m-auto pb-10 lg:pb-20"
+    >
+      <h1 class="text-display max-w-screen-sm">
+        Delivering Dedicated GSSA Success Across the Skies
+      </h1>
+
+      <p class="max-w-screen-sm">
+        As Africa’s largest carrier, Ethiopian Airlines sought a reliable
+        partner to establish a strong foothold in the Indonesian market.
+        AVIAVENTURA provided a dedicated sales and operations team, ensuring
+        that Ethiopian Airlines not only increased its passenger sales but also
+        optimized its cargo operations.
+      </p>
+
+      <figure>
+        <img
+          src="/img/offices/office-ethiopian-airlines.jpg"
+          alt=""
+          class="rounded-2xl w-full"
+        />
+        <figcaption class="text-sm text-slate-600 mt-2 h-fit lg:h-12">
+          <span class="mr-2">↑</span>
+          Office for Ethiopian Airlines
+        </figcaption>
+      </figure>
+
+      <p class="max-w-screen-sm">
+        Our team worked tirelessly on strategic partnerships with travel
+        agencies, corporate clients, and cargo handlers, leading to a steady
+        increase in bookings and streamlined cargo logistics. Today, Ethiopian
+        Airlines enjoys an established and growing presence in the region,
+        backed by our market expertise and operational excellence.
+      </p>
+      <div class="flex flex-col md:flex-row gap-10 items-end">
+        <figure class="">
+          <img
+            src="/img/offices/office-ethiopian-airlines-2.jpg"
+            alt=""
+            class="rounded-2xl object-cover"
+          />
+          <figcaption class="text-sm text-slate-600 mt-2 h-fit lg:h-12">
+            <span class="mr-2">↑</span>
+            Office for Ethiopian Airlines
+          </figcaption>
+        </figure>
+        <figure class="">
+          <img
+            src="/img/offices/office-ethiopian-airlines-3.jpg"
+            alt=""
+            class="rounded-2xl"
+          />
+          <figcaption class="text-sm text-slate-600 mt-2 h-fit lg:h-12">
+            <span class="mr-2">↑</span>
+            Office for Ethiopian Airlines
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="flex gap-20 lg:flex-row flex-col">
+        <p>
+          With its strategic routes connecting Asia and Europe, Uzbekistan
+          Airways needed a strong local presence to effectively penetrate
+          Indonesia’s aviation sector. AVIAVENTURA took charge of sales,
+          marketing, and administrative operations, ensuring smooth coordination
+          between the airline and local authorities.
+        </p>
+        <p>
+          Our personalized approach, including direct engagement with travel
+          agents and corporate partners, resulted in a significant rise in
+          ticket sales. Additionally, our hands-on management of cargo sales and
+          compliance led to improved efficiency in freight movement, solidifying
+          Uzbekistan Airways’ reputation in the market.
+        </p>
+      </div>
+
+      <figure>
+        <img
+          src="/img/offices/uzbekistan-airways-office.jpg"
+          alt=""
+          class="rounded-2xl w-full"
+        />
+        <figcaption class="text-sm text-slate-600 mt-2 h-fit lg:h-12">
+          <span class="mr-2">↑</span>
+          Office for Uzbekistan Airways
+        </figcaption>
+      </figure>
+
+      <h2 class="text-display">More Than Just a GSSA</h2>
+
+      <div class="flex flex-col lg:flex-row gap-10 lg:gap-20 justify-between">
+        <p class="max-w-screen-sm">
+          A Strategic Aviation Partner At AVIAVENTURA, we don’t just represent
+          airlines; we empower them to succeed. Whether it’s increasing
+          passenger sales, optimizing cargo operations, or navigating regulatory
+          complexities, our dedicated approach ensures that our partners achieve
+          sustainable growth in Indonesia’s dynamic aviation market. If you’re
+          looking for a GSSA that prioritizes accountability, efficiency, and
+          results, AVIAVENTURA is your trusted aviation partner. Let’s take your
+          airline to new heights together.
+        </p>
+
+        <figure class="max-w-100">
+          <img
+            src="/img/offices/uzbekistan-airways-office-2.jpg"
+            alt=""
+            class="rounded-2xl"
+          />
+          <figcaption class="text-sm text-slate-600 mt-2 h-fit lg:h-12">
+            <span class="mr-2">↑</span>
+            Office for Uzbekistan Airways
+          </figcaption>
+        </figure>
+      </div>
+    </article>
+  </main>
+</Layout>

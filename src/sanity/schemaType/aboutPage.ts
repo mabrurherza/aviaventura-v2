@@ -32,7 +32,30 @@ export default defineType({
                 defineField({ name: 'passengers', title: 'Passengers served', type: 'string' }),
                 defineField({ name: 'partners', title: 'Travel agency partners', type: 'number' }),
             ]
-        })
+        }),
+         defineField({
+            name: 'teamMembers',
+            title: 'Team Members',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        defineField({ name: 'name', title: 'Name', type: 'string' }),
+                        defineField({ name: 'position', title: 'Position', type: 'string' }),
+                        defineField({ name: 'photo', title: 'Photo', type: 'image', options: { hotspot: true } }),
+                        defineField({ name: 'linkedin', title: 'LinkedIn URL', type: 'url' }),
+                    ],
+                    preview: {
+                        select: {
+                            title: 'name',
+                            subtitle: 'position',
+                            media: 'photo',
+                        },
+                    },
+                }
+            ]
+        }),
 
     ],
 })

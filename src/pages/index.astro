@@ -2,12 +2,8 @@
 import Layout from "../layouts/Layout.astro";
 
 import Hero from "../components/Homepage/Hero.astro";
-import HowSection from "../components/Homepage/HowSection.astro";
-import Carousel from "../components/Homepage/Carousel.astro";
-import CarouselItem from "../components/CarouselItem.astro";
 
 import BtnPrimary from "../components/BtnPrimary.astro";
-import SuccessStory from "../components/SuccessStory.astro";
 import Eyebrow from "../components/Eyebrow.astro";
 import NewsfeedItem from "../components/NewsfeedItem.astro";
 
@@ -18,18 +14,12 @@ const content = data[0];
 
 const newsData = await sanityClient.fetch(`*[_type == "news"]`);
 
-// import { urlForImage } from "../sanity/lib/urlForImage";
 import { urlFor } from "../sanity/lib/urlFor";
-import type { SanityImageObject } from "@sanity/image-url";
 
-import EventCard1 from "../components/EventCard1.astro";
 import EventCard2 from "../components/EventCard2.astro";
-import WhySection from "../components/Homepage/WhySection.astro";
-import StrengthSection from "../components/Homepage/StrengthSection.astro";
 import StrengthSection2 from "../components/Homepage/StrengthSection2";
 import HowSection2 from "../components/Homepage/HowSection2.astro";
 import WhySection2 from "../components/Homepage/WhySection2.astro";
-import Services from "../components/Homepage/Services.astro";
 import Services2 from "../components/Homepage/Services2.astro";
 import AchievementStats from "../components/Homepage/AchievementStats.astro";
 ---

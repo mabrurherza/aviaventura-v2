@@ -1,0 +1,106 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+import { sanityClient } from "sanity:client";
+
+const content = await sanityClient.fetch(`*[_type == "aboutPage"][0]`);
+
+import { urlFor } from "../sanity/lib/urlFor";
+
+import LogoOutlineGraphic from "../components/LogoOutlineGraphic.astro";
+import AchievementStats from "../components/Homepage/AchievementStats.astro";
+import TeamItem2 from "../components/TeamItem2.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+---
+
+<Layout>
+  <section class="bg-brand py-32">
+    <div
+      class="container mx-auto p-5 flex flex-col-reverse lg:flex-row gap-20 items-center relative justify-center"
+    >
+      <img
+        src="/img/CEO.jpg"
+        alt="President Director of Aviaventura, Yusuf Besar Jauhari"
+        class="flex-1 w-full md:max-w-[320px] rounded-xl"
+      />
+      <blockquote class="">
+        <p
+          class="font-light text-3xl leading-relaxed lg:text-4xl lg:leading-relaxed text-white max-w-137.5"
+        >
+          Driving growth, building partnerships, delivering excellence.
+        </p>
+        <cite class="flex items-center mt-10 text-sky-500"
+          >Yusuf Besar Jauhari, CEO</cite
+        >
+      </blockquote>
+    </div>
+    <div class="absolute right-0 top-60 opacity-20 w-64 md:hidden">
+      <LogoOutlineGraphic />
+    </div>
+
+    <div class="absolute right-0 bottom-32 opacity-20 hidden md:block">
+      <LogoOutlineGraphic />
+    </div>
+  </section>
+
+  <section
+    class="container mx-auto flex flex-col gap-8 px-5 md:px-0 pt-20 md:pt-40 lg:flex-row lg:gap-20 lg:pt-56"
+  >
+    <div class="flex-1">
+      <h1 class="text-display mb-8 lg:mb-12 lg:max-w-[8ch]">Our Company</h1>
+      <p>
+        {content.content.paragraph}
+      </p>
+    </div>
+    <div class="flex-1">
+      <img
+        src={urlFor(content.content.mainImage).url()}
+        alt="Team photo of AVIAVENTURA"
+        class="w-full rounded-2xl object-cover aspect-4/3"
+      />
+    </div>
+  </section>
+
+  <section
+    class="container mx-auto hidden lg:flex flex-col gap-8 pt-10 lg:flex-row lg:gap-10 lg:pt-40 justify-between"
+  >
+    <img
+      src="/img/aviaventura-office-situation.jpg"
+      alt=""
+      class="max-w-90 rounded-2xl"
+    />
+    <img
+      src="/img/aviaventura-office-situation-2.jpg"
+      alt=""
+      class="max-w-90 rounded-2xl"
+    />
+    <img
+      src="/img/aviaventura-office-situation-3.jpg"
+      alt=""
+      class="max-w-90 rounded-2xl"
+    />
+  </section>
+
+  <AchievementStats />
+
+  <section class="container mx-auto py-20 lg:py-32">
+    <div class="mb-10">
+      <Eyebrow text="Leadership" />
+    </div>
+
+    <div
+      class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] px-5 md:px-0 gap-12 md:gap-4 lg:gap-10"
+    >
+      {
+        content.teamMembers.map((member: any) => (
+          <TeamItem2
+            src={urlFor(member.photo).url()}
+            name={member.name}
+            position={member.position}
+            linkedin={member.linkedin}
+          />
+        ))
+      }
+    </div>
+  </section>
+</Layout>

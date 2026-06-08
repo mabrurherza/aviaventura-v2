@@ -1,0 +1,51 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PortableText from "../../components/PortableText.astro";
+import Breadcrumb from "../../components/Breadcrumb.astro";
+
+import type { SanityDocument } from "@sanity/client";
+import { loadQuery } from "../../sanity/lib/load-query";
+
+import { sanityClient } from "sanity:client";
+
+export async function getStaticPaths() {
+  const { data: news } = await loadQuery<SanityDocument[]>({
+    query: `*[_type == "news"]`,
+  });
+
+  return news.map(({ slug }) => {
+    return {
+      params: {
+        slug: slug.current,
+      },
+    };
+  });
+}
+
+const { slug } = Astro.params;
+
+const { params } = Astro;
+
+const { data: news } = (await loadQuery({
+  query: `*[_type == "news" && slug.current == $slug][0]`,
+  params,
+})) as any;
+
+import { urlFor } from "../../sanity/lib/urlFor";
+---
+
+<Layout>
+  <Breadcrumb text="Back to Newsfeed" link="/news" />
+
+  <main class="py-12 max-w-screen-sm mx-auto flex flex-col gap-5 md:gap-10 p-5">
+    <h1 class="text-3xl text-brand leading-snug">{news.title}</h1>
+    <img
+      src={urlFor(news.thumbnail).url()}
+      alt={news.thumbnail.caption}
+      class="aspect-video w-full object-cover rounded-md"
+    />
+    <div class="custom-text">
+      <PortableText portableText={news.content} />
+    </div>
+  </main>
+</Layout>

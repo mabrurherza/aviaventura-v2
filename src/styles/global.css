@@ -27,7 +27,7 @@
 
 @layer components {
   .text-display {
-    @apply text-3xl lg:text-4xl font-extralight bg-gradient-to-br from-sky-600 to-brand bg-clip-text text-transparent !leading-tight;
+    @apply text-3xl lg:text-4xl font-extralight bg-linear-to-br from-sky-600 to-brand bg-clip-text text-transparent leading-tight;
   }
 
   .custom-text p {
@@ -51,7 +51,7 @@ cite::before {
   background-color: rgb(2 132 199);
   content: "";
   display: inline-block;
-  height: .0625rem;
+  height: 0.0625rem;
   margin-right: 1.25rem;
   width: 2.5rem;
 }
