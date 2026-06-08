@@ -1,45 +1,170 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { sanityClient } from "sanity:client";
-const careerData = await sanityClient.fetch(`*[_type == "career"]`);
-
-import PortableText from "../components/PortableText.astro";
-import BtnPrimary from "../components/BtnPrimary.astro";
 ---
 
 <Layout>
   <main class="container mx-auto gap-10 gap-y-24 py-32 px-5">
     <h1 class="text-display mb-12 text-5xl">Career available at Aviaventura</h1>
-    <div class="py-5">
-      {
-        !careerData ? (
-          <p>
-            No career available for a while. Follow our{" "}
-            <a href="https://www.linkedin.com/company/aviaventura-aero-agensi">
-              LinkedIn
-            </a>{" "}
-            for update.
-          </p>
-        ) : (
-          careerData.map((career: any) => (
-            <div class="py-5 border-b border-slate-200">
-              <h2 class="text-2xl">{career.jobTitle}</h2>
-              <p class="pb-3">Department: {career.department}</p>
-              <div class="pb-3">
-                <PortableText portableText={career.description} />
-              </div>
-
-              <div>
-                <BtnPrimary
-                  link={`mailto:yogi@aviaventura.com?subject=JOB APPLY for ${career.jobTitle}`}
-                  theme="light"
-                  text="Apply via email"
-                />
-              </div>
-            </div>
-          ))
-        )
-      }
+    <div class="py-5" id="career-list">
+      <p>Loading...</p>
     </div>
-  </main></Layout
->
+  </main>
+</Layout>
+
+<script>
+  // TODO: replace with your actual Sanity project ID
+  const PROJECT_ID = "jnbqgyyk";
+  const DATASET = "production";
+  const API_VERSION = "2024-01-01";
+
+  const query = encodeURIComponent('*[_type == "career"]');
+  const url = `https://${PROJECT_ID}.api.sanity.io/v${API_VERSION}/data/query/${DATASET}?query=${query}`;
+
+  const container = document.getElementById("career-list");
+
+  function renderPortableText(blocks, parent) {
+    if (!Array.isArray(blocks)) return;
+
+    let currentList = null;
+    let currentListType = null;
+
+    blocks.forEach((block) => {
+      if (block._type !== "block") return;
+
+      // Handle list items
+      if (block.listItem) {
+        const listTag = block.listItem === "bullet" ? "ul" : "ol";
+
+        if (!currentList || currentListType !== listTag) {
+          currentList = document.createElement(listTag);
+          currentList.className =
+            listTag === "ul"
+              ? "list-disc list-inside mb-2"
+              : "list-decimal list-inside mb-2";
+          parent.appendChild(currentList);
+          currentListType = listTag;
+        }
+
+        const li = document.createElement("li");
+        appendSpans(li, block.children, block.markDefs);
+        currentList.appendChild(li);
+        return;
+      }
+
+      // Reset list tracking when we hit a non-list block
+      currentList = null;
+      currentListType = null;
+
+      const styleTagMap = {
+        h1: "h1",
+        h2: "h2",
+        h3: "h3",
+        h4: "h4",
+        blockquote: "blockquote",
+        normal: "p",
+      };
+      const tag = styleTagMap[block.style] || "p";
+      const el = document.createElement(tag);
+      el.className = "mb-2";
+
+      appendSpans(el, block.children, block.markDefs);
+      parent.appendChild(el);
+    });
+  }
+
+  function appendSpans(parent, children, markDefs) {
+    (children || []).forEach((span) => {
+      let node = document.createTextNode(span.text || "");
+
+      if (span.marks && span.marks.length > 0) {
+        let wrapped = null;
+
+        span.marks.forEach((mark) => {
+          // Check if mark is a link ref
+          const linkDef = (markDefs || []).find((d) => d._key === mark);
+          if (linkDef && linkDef._type === "link") {
+            const a = document.createElement("a");
+            a.href = linkDef.href;
+            a.target = "_blank";
+            a.rel = "noopener noreferrer";
+            a.className = "underline";
+            a.appendChild(wrapped || node);
+            wrapped = a;
+            return;
+          }
+
+          const markTagMap = {
+            strong: "strong",
+            em: "em",
+            underline: "u",
+            "strike-through": "s",
+            code: "code",
+          };
+          const markTag = markTagMap[mark];
+          if (markTag) {
+            const markEl = document.createElement(markTag);
+            markEl.appendChild(wrapped || node);
+            wrapped = markEl;
+          }
+        });
+
+        parent.appendChild(wrapped || node);
+        return;
+      }
+
+      parent.appendChild(node);
+    });
+  }
+
+  fetch(url)
+    .then((res) => res.json())
+    .then(({ result: careerData }) => {
+      container.innerHTML = "";
+
+      if (!careerData || careerData.length === 0) {
+        const p = document.createElement("p");
+        p.innerHTML = `No career available for a while. Follow our <a href="https://www.linkedin.com/company/aviaventura-aero-agensi">LinkedIn</a> for update.`;
+        container.appendChild(p);
+        return;
+      }
+
+      careerData.forEach((career) => {
+        const card = document.createElement("div");
+        card.className = "py-5 border-b border-slate-200";
+
+        const title = document.createElement("h2");
+        title.className = "text-2xl";
+        title.innerText = career.jobTitle;
+
+        const dept = document.createElement("p");
+        dept.className = "pb-3";
+        dept.innerText = `Department: ${career.department}`;
+
+        const desc = document.createElement("div");
+        desc.className = "pb-3";
+        renderPortableText(career.description, desc);
+
+        const btnWrap = document.createElement("div");
+        const btn = document.createElement("a");
+        btn.href = `mailto:yogi@aviaventura.com?subject=JOB APPLY for ${career.jobTitle}`;
+        btn.innerText = "Apply via email";
+        btn.style.color = "oklch(68.5% 0.169 237.323)";
+        btn.style.fontWeight = "500";
+        btn.style.textDecoration = "underline";
+
+        btnWrap.appendChild(btn);
+
+        card.appendChild(title);
+        card.appendChild(dept);
+        card.appendChild(desc);
+        card.appendChild(btnWrap);
+        container.appendChild(card);
+      });
+    })
+    .catch(() => {
+      container.innerHTML = "";
+      const p = document.createElement("p");
+      p.innerText = "Failed to load careers. Please try again later.";
+      container.appendChild(p);
+    });
+</script>

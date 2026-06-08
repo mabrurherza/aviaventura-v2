@@ -47,16 +47,11 @@ export const careerType = defineType({
         }),
         defineField({
             name: 'description',
-            title: 'Job Description',
+            title: 'Job Description and Requirement',
             type: 'array',
             of: [{ type: 'block' }]
         }),
-        defineField({
-            name: 'requirements',
-            title: 'Requirements',
-            type: 'array',
-            of: [{ type: 'block' }]
-        }),
+
         defineField({
             name: 'status',
             title: 'Status',
